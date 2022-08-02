@@ -1,9 +1,9 @@
 # 3D-annotation-image-upscaler-for-huge-images
 ## code snippet to upscale an 3D annotation file to TB size independed of working memory (PROOF-OF-CONCEPT)
 
-Some python code to upscale an annotation image to a high resolution image without loosing the annotation labels. I'm not a programmer and I still hope to find someone solving this task before so I didn't have to write such bad code. But after more than a year of unsuccessful searching, i was forced to solve the problem myself. Note how often this question arises in neuroscience, which is why it is unlikely that it has not been solved by anyone.
+Some python code to upscale an annotation image to a high resolution image without loosing the annotation labels. I'm not a programmer and I still hope to find someone solved this task before. But after more than a year of unsuccessful searching, I was forced to solve the problem myself. **Note:** how often this question arises in neuroscience, which is why it is unlikely that it has not been solved by anyone. Even today people often mark regions by hand using a pixel image software insteed of using an alignment + upscaler.
 
-The code is mostly based on the memmap function of numpy and it upscales in 2 Dimensions per Step using the [resize function of Pillow package](https://pillow.readthedocs.io/en/stable/reference/Image.html) and rotate the Image virtually after the Steps to upscale the whole 3D Image. Saving is performed by the Tiffwriter from Tifffile Package. This makes it possible to upscale an image to nearly unlimited size. I successfully upscaled an image from 300 MB into an 450 GB image using a PC with 8 GB RAM in about 3 hours (about 43MB write/s).
+The code is mostly based on the "memmap" function of numpy and it upscales in 2 Dimensions per Step using the [2D resize function of Pillow package](https://pillow.readthedocs.io/en/stable/reference/Image.html) and rotate the Image virtually after the Steps to upscale the whole 3D Image. Saving is performed by the Tiffwriter from Tifffile Package. This makes it possible to upscale an image to nearly unlimited size. So it can successfully upscale an image from 300 MB into an 450 GB image using a PC with 8 GB RAM, in about 3 hours (about 43MB write/s).
 
 <p align="center">
 <img src="https://github.com/SaibotMagd/3D-annotation-image-upscaler-for-huge-images/blob/main/3D-AIUdocs/src_image_example1.png" width="300">
@@ -25,26 +25,27 @@ The code is mostly based on the memmap function of numpy and it upscales in 2 Di
   - datetime, numpy, os, tifffile, PIL
   - needs 1.5-times the target size free space on harddrive for processing (i.e. upscaling to target of 450GB needs about 950GB free space (450GB for the result file, 500GB for processing) 
   
-## Why to care?:
+## Why is it important?:
 
-I registered a huge lightsheet brain dataset from a mouse onto the allen mouse brain atlas ([Wang et al. 2020 Cell](https://doi.org/10.1016/j.cell.2020.04.007)) or vice versa. To perform this task you currently have to downscale the image, besides, it does not increase the registration quality since the atlas is currently only offered in 10um resolution. I segmented the vessels or counted the cells (i.e. using [Kirst et al. 2020 Cell](https://doi.org/10.1016/j.cell.2020.01.028)) after that i wanted to show the cells in dependence of the brain region, because this was the aim of the registration. **Important to know: you have to disable any kind of interpolation algorithm, as it makes the annotations unusable. 
+After registering a huge lightsheet brain dataset from a mouse onto the allen mouse brain atlas ([Wang et al. 2020 Cell](https://doi.org/10.1016/j.cell.2020.04.007)) or vice versa, it could be important to mark a specific or all regions from the atlas onto the tissue in the highest resolution. To perform the registration its necessary to downscale the image (to use the full resolution image does't increase the registration quality since the atlas is currently only offered in 10um resolution; also the performance would be a nightmare). To visualize segmented vessels or marked cells (i.e. using [Kirst et al. 2020 Cell](https://doi.org/10.1016/j.cell.2020.01.028)) onto a region defined by the atlas annotation in full resolution an upscaling of the registered annotation file is necessary. ***Important to know: you have to disable any kind of interpolation algorithm, as it makes the annotations unusable.***
 
-The result should look similar to this ([Blue Brain Cell Atlas](https://bbp.epfl.ch/nexus/cell-atlas/)):
+The result could look similar to this ([Blue Brain Cell Atlas](https://bbp.epfl.ch/nexus/cell-atlas/)):
 
 <p align="center">
 <a href="https://bbp.epfl.ch/nexus/cell-atlas/">
 <img src="https://github.com/SaibotMagd/3D-annotation-image-upscaler-for-huge-images/blob/main/3D-AIUdocs/blue_brain_cell_atlas_example1.png" 
  alt="Blue Brain Cell Atlas Example" width="300" hspace="40"/></a>
 
-To my great surprise there was no function to do this in neither Imaris nor Arivis (very high-quality proprietary software systems for the display and processing of particularly large neuroscientific image data). In ImageJ you could do this using the *scale function* but it uses the working memory, so large images are impossible and also the performance seems pretty bad. [Convert3D from the authors of itk-snap](http://www.itksnap.org/pmwiki/pmwiki.php?n=Downloads.C3D) can upscale images slices wise and disable the interpolation, but it can only upscale images with less then 256 colors and is incapable to upscale images larger then some GB.
+Today there's no function to do this in neither Imaris nor Arivis (very high-quality proprietary software systems for the display and processing of particularly large neuroscientific image data), even if they are able to use an upscaled annotation file as an overlay, they cannot create these overlays themselves. In ImageJ its possible to do the upscaling with the *scale function* but it uses the working memory, so large images are impossible and also the performance seems pretty bad. [Convert3D from the authors of itk-snap](http://www.itksnap.org/pmwiki/pmwiki.php?n=Downloads.C3D) can upscale images slices wise and disable the interpolation, but it can only upscale images with less then 256 colors and is incapable to upscale images larger then some GB. 
 
 ## How to help?
 
-Please don't tell me what to improve or add, but specifically how, as I don't have the programming skills to do it better. Try to solve the underlying problem on your own and compare the performance of your code with mine. This is and remains a proof-of-concept, as I still assume that there are established tools that solve this task better. If you know of one, help me out.
+Please don't tell me what to improve or add, but specifically how, as I don't have the programming skills to do it better. Try to solve the task on your own and compare the performance of your code with mine. This is and remains a proof-of-concept, as I still assume that there are established tools that solve this task better. ***If you know of one, please help me out.***
 
 ## Next steps?:
 
 - create a CLI for easier use
+- select one or a bunch of labels to create an overlay mask for visualizing or to as ROI
 - parallelizing the algorithm (depending on the speed of the disc drive)
 - use N5 or HDF5 to save the data for better performance and data storage
 - combine the upscaler and the cell plotter (work in progress)
