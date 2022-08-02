@@ -5,13 +5,29 @@ Some python code to upscale an annotation image to a high resolution image witho
 
 The code is mostly based on the memmap function of numpy and it upscales in 2 Dimensions per Step using the [resize function of Pillow package](https://pillow.readthedocs.io/en/stable/reference/Image.html) and rotate the Image virtually after the Steps to upscale the whole 3D Image. Saving is performed by the Tiffwriter from Tifffile Package. This makes it possible to upscale an image to nearly unlimited size. I successfully upscaled an image from 300 MB into an 450 GB image using a PC with 8 GB RAM in about 3 hours (about 43MB write/s).
 
+<p align="center">
+<img src="https://github.com/SaibotMagd/3D-annotation-image-upscaler-for-huge-images/blob/main/3D-AIUdocs/src_image_example1.png" width="300">
+<img src="https://github.com/SaibotMagd/3D-annotation-image-upscaler-for-huge-images/blob/main/3D-AIUdocs/src_image_hist_example1.png" width="300">
+</p>
+<p align="center">
+<img src="https://github.com/SaibotMagd/3D-annotation-image-upscaler-for-huge-images/blob/main/3D-AIUdocs/tar_image_example1.png" width="300">
+<img src="https://github.com/SaibotMagd/3D-annotation-image-upscaler-for-huge-images/blob/main/3D-AIUdocs/tar_image_hist_example1.png" width="300">
+</p>
+
+## features:
+
+- upscale an 3D annotation file pixel per pixel without interpolation (target size nearly infinite and independent of working memory)
+- use the shape of an target image for matching (default) or set it manually
+
+
 ## dependencies:
 
   - datetime, numpy, os, tifffile, PIL
+  - needs 1.5-times the target size free space on harddrive for processing (i.e. upscaling to target of 450GB needs about 950GB free space (450GB for the result file, 500GB for processing) 
   
 ## Why to care?:
 
-I registered a huge lightsheet brain dataset from a mouse onto the allen mouse brain atlas ([Wang et al. 2020 Cell](https://doi.org/10.1016/j.cell.2020.04.007)) or vice versa. To perform this task you currently have to downscale the image, besides, it does not increase the registration quality since the atlas is currently only offered in 10um resolution. I segmented the vessels or counted the cells (i.e. using [Kirst et al. 2020 Cell](https://doi.org/10.1016/j.cell.2020.01.028)) after that i wanted to show the cells in dependence of the brain region, because this was the aim of the registration. Important to know: you have to disable any kind of interpolation algorithm, it makes the annotations unusable. 
+I registered a huge lightsheet brain dataset from a mouse onto the allen mouse brain atlas ([Wang et al. 2020 Cell](https://doi.org/10.1016/j.cell.2020.04.007)) or vice versa. To perform this task you currently have to downscale the image, besides, it does not increase the registration quality since the atlas is currently only offered in 10um resolution. I segmented the vessels or counted the cells (i.e. using [Kirst et al. 2020 Cell](https://doi.org/10.1016/j.cell.2020.01.028)) after that i wanted to show the cells in dependence of the brain region, because this was the aim of the registration. **Important to know: you have to disable any kind of interpolation algorithm, as it makes the annotations unusable. 
 
 The result should look similar to this ([Blue Brain Cell Atlas](https://bbp.epfl.ch/nexus/cell-atlas/)):
 
