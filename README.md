@@ -42,7 +42,7 @@ Today there's no function to do this in neither Imaris nor Arivis (very high-qua
 
 ## How to help?
 
-Please don't tell me what to improve or add, but specifically how, as I don't have the programming skills to do it better. Try to solve the task on your own and compare the performance of your code with mine. This is and remains a proof-of-concept, as I still assume that there are established tools that solve this task better. ***If you know of one, please help me out.***
+- tell me about a way to do this more efficient; how do others solve this task?
 
 ## Next steps?:
 
