@@ -3,9 +3,9 @@
 
 Update 8/2023: there are plans to further develop this idea into a full-fledged tool for use with omero (https://www.openmicroscopy.org/). stay tuned
 
-Some python code to upscale an annotation image to a high resolution image without loosing the annotation labels. **Note:** how often this question arises in neuroscience, which is why it is unlikely that it has not been solved by anyone. Even today people often mark regions by hand using a pixel image software insteed of using an alignment + upscaler.
+Even today there are studies in which the regions are marked manually instead of using the significantly more objective alternative of atlas registration with subsequent upscaling. The Python code presented here can upscale an annotation image to a high resolution image without loss of annotation labels. **Note:** Since this is a common problem in neuroscience, it is unlikely that no one has solved it yet. 
 
-The code is mostly based on the "memmap" function of numpy and it upscales in 2 Dimensions per Step using the [2D resize function of Pillow package](https://pillow.readthedocs.io/en/stable/reference/Image.html) and rotate the Image virtually after the Steps to upscale the whole 3D Image. Saving is performed by the Tiffwriter from Tifffile Package. This makes it possible to upscale an image to nearly unlimited size. So it can successfully upscale an image from 300 MB into an 450 GB image using a PC with 8 GB RAM, in about 3 hours (about 43MB write/s).
+The code is mostly based on the "memmap" function of numpy and it upscales in 2 dimensions per step using the [2D resize function of the Pillow package](https://pillow.readthedocs.io/en/stable/reference/Image.html) and rotates the image virtually after the steps to upscale the whole 3D image. The saving is done by the Tiffwriter of the Tifffile package. This makes it possible to upscale an image to an almost unlimited size. For example, on a PC with 8 GB RAM, a 300 MB image can be successfully upscaled to a 450 GB image in about 3 hours (about 43 MB write/s).
 
 <p align="center">
 <img src="https://github.com/SaibotMagd/3D-annotation-image-upscaler-for-huge-images/blob/main/3D-AIUdocs/src_image_example1.png" width="300">
