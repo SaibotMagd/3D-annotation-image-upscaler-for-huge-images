@@ -1,7 +1,9 @@
 # 3D-annotation-image-upscaler-for-huge-images
 ## code snippet to upscale an 3D annotation file to TB size independed of working memory (PROOF-OF-CONCEPT)
 
-Some python code to upscale an annotation image to a high resolution image without loosing the annotation labels. I'm not a programmer and I still hope to find someone solved this task before. But after more than a year of unsuccessful searching, I was forced to solve the problem myself. **Note:** how often this question arises in neuroscience, which is why it is unlikely that it has not been solved by anyone. Even today people often mark regions by hand using a pixel image software insteed of using an alignment + upscaler.
+Update 8/2023: there are plans to further develop this idea into a full-fledged tool for use with omero (https://www.openmicroscopy.org/). stay tuned
+
+Some python code to upscale an annotation image to a high resolution image without loosing the annotation labels. **Note:** how often this question arises in neuroscience, which is why it is unlikely that it has not been solved by anyone. Even today people often mark regions by hand using a pixel image software insteed of using an alignment + upscaler.
 
 The code is mostly based on the "memmap" function of numpy and it upscales in 2 Dimensions per Step using the [2D resize function of Pillow package](https://pillow.readthedocs.io/en/stable/reference/Image.html) and rotate the Image virtually after the Steps to upscale the whole 3D Image. Saving is performed by the Tiffwriter from Tifffile Package. This makes it possible to upscale an image to nearly unlimited size. So it can successfully upscale an image from 300 MB into an 450 GB image using a PC with 8 GB RAM, in about 3 hours (about 43MB write/s).
 
